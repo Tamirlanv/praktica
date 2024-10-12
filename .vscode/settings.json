@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "xprotocol",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 33060,
+            "driver": "MySQL",
+            "name": "MyDataBase",
+            "database": "bankdb",
+            "username": "root",
+            "password": "forEXapm//88",
+            "connectionTimeout": 30
+        }
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
