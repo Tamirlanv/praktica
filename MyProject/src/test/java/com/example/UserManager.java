@@ -6,28 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//---Проверка должности пользовател
 public class UserManager {
-    public static boolean registerClient(String name, String age, String password){
+    // Регистрация клиента
+    public static boolean registerClient(String name, String age, String password) {
         String sql = "INSERT INTO users (name, age, password, role) VALUES (?, ?, ?, 'Client')";
-        try(Connection conn = DatabaseConnector.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, name);
-                pstmt.setString(2, age);
-                pstmt.setString(3, password);
-                pstmt.executeUpdate();
-                return true; 
+        try (Connection conn = DatabaseConnectorTest.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, age);
+            pstmt.setString(3, password);
+            pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println("Ошибка при регистрации клиента: " + e.getMessage());
             return false;
         }
     }
-    
-//---нахождение админа
-    public static boolean authenticateAdmin(String name, String password){
+
+    // Аутентификация администратора
+    public static boolean authenticateAdmin(String name, String password) {
         String sql = "SELECT * FROM users WHERE name = ? AND password = ? AND role = 'Admin'";
-        try (Connection conn = DatabaseConnector.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnectorTest.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
@@ -38,41 +38,40 @@ public class UserManager {
         }
     }
 
-//---функция вывода информации клентов для АДМИНА
+    // Показ клиентов для администратора
     public static void showClients() {
         String sql = "SELECT * FROM users WHERE role = 'Client'";
-        try (Connection conn = DatabaseConnector.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)) {
-                while (rs.next()) {
-                    System.out.println("ID: " + rs.getInt("id") + ", Имя: " + rs.getString("name") + ", Возраст: " + rs.getString("age") + ", Баланс: " + rs.getInt("balance"));
-                }
-            
+        try (Connection conn = DatabaseConnectorTest.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") + ", Имя: " + rs.getString("name") + ", Возраст: " + rs.getString("age") + ", Баланс: " + rs.getInt("balance"));
+            }
         } catch (SQLException e) {
             System.out.println("Ошибка при выводе данных клиентов: " + e.getMessage());
         }
     }
 
-//---получение данных о счёте клиента
+    // Получение баланса клиента
     public static int getClientBalance(String name) {
         String sql = "SELECT balance FROM users WHERE name = ? AND role = 'Client'";
-        try (Connection conn = DatabaseConnector.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)){
-                pstmt.setString(1, name);
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    return rs.getInt("balance");
-                }     
+        try (Connection conn = DatabaseConnectorTest.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("balance");
+            }
         } catch (SQLException e) {
             System.out.println("Ошибка при получении баланса: " + e.getMessage());
         }
         return -1;
     }
 
-
+    // Обновление баланса клиента
     public static void updateClientBalance(String name, int newBalance) {
         String sql = "UPDATE users SET balance = ? WHERE name = ? AND role = 'Client'";
-        try (Connection conn = DatabaseConnector.connect();
+        try (Connection conn = DatabaseConnectorTest.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newBalance);
             pstmt.setString(2, name);
@@ -80,7 +79,22 @@ public class UserManager {
         } catch (SQLException e) {
             System.out.println("Ошибка при обновлении баланса: " + e.getMessage());
         }
+    }
 
+    // Удаление клиента по ID
+    public static void deleteClientById(int clientId) {
+        String sql = "DELETE FROM users WHERE id = ? AND role = 'Client'";
+        try (Connection conn = DatabaseConnectorTest.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientId);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Клиент с ID " + clientId + " был успешно удален.");
+            } else {
+                System.out.println("Клиент с ID " + clientId + " не найден.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при удалении клиента: " + e.getMessage());
+        }
     }
 }
-
