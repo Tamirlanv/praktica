@@ -34,6 +34,36 @@ public class AppTest {
         scan.close();
     }
 
+    public static void adminMenu(){
+        Scanner scan = new Scanner(System.in);
+        int adminChoice = 0;
+        while (adminChoice !=3) {
+            System.out.println("Выберите действие:\n1) Показать всех клиентов\n2) Удалить клиента по ID\n3) Выйти");
+            adminChoice = scan.nextInt();
+
+            switch (adminChoice) {
+                case 1:
+                //// Показать всех клиентов
+                UserManager.showClients();
+                    break;
+                case 2:
+                // Удалить клиента
+                System.out.println("Введите ID клиента для удаления:");
+                int clientId = scan.nextInt();
+                UserManager.deleteClientById(clientId);
+                    break;
+                case 3:
+                System.out.println("Завершение работы.");
+                    break;
+                default:
+                System.out.println("Некорректный выбор. Попробуйте снова.");
+                    break;
+            }
+        }
+        scan.close();
+    }
+
+    //// Меню для клиента (не изменяется)
     public static void clientMenu(String name) {
         Scanner scan = new Scanner(System.in);
         int balance = UserManager.getClientBalance(name);

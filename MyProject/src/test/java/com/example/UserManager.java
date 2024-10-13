@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//---Проверка должности пользовател
+//---C - Create: Регистрация клиента (Create)
 public class UserManager {
     public static boolean registerClient(String name, String age, String password){
         String sql = "INSERT INTO users (name, age, password, role) VALUES (?, ?, ?, 'Client')";
@@ -23,7 +23,7 @@ public class UserManager {
         }
     }
     
-//---нахождение админа
+//---R - Read: Аутентификация администратора (Read)
     public static boolean authenticateAdmin(String name, String password){
         String sql = "SELECT * FROM users WHERE name = ? AND password = ? AND role = 'Admin'";
         try (Connection conn = DatabaseConnector.connect();
@@ -38,7 +38,7 @@ public class UserManager {
         }
     }
 
-//---функция вывода информации клентов для АДМИНА
+//---R - Read: Просмотр клиентов администратором (Read)
     public static void showClients() {
         String sql = "SELECT * FROM users WHERE role = 'Client'";
         try (Connection conn = DatabaseConnector.connect();
@@ -53,7 +53,7 @@ public class UserManager {
         }
     }
 
-//---получение данных о счёте клиента
+//---R - Read: Получение баланса клиента (Read)
     public static int getClientBalance(String name) {
         String sql = "SELECT balance FROM users WHERE name = ? AND role = 'Client'";
         try (Connection conn = DatabaseConnector.connect();
@@ -69,7 +69,7 @@ public class UserManager {
         return -1;
     }
 
-
+//U - Update: Обновление баланса клиента (Update)
     public static void updateClientBalance(String name, int newBalance) {
         String sql = "UPDATE users SET balance = ? WHERE name = ? AND role = 'Client'";
         try (Connection conn = DatabaseConnector.connect();
@@ -81,6 +81,23 @@ public class UserManager {
             System.out.println("Ошибка при обновлении баланса: " + e.getMessage());
         }
 
+    }
+
+//D - Delete: Удаление клиента по ID (Delete)
+    public static void deleteClientById(int clientId) {
+        String sql = "DELETE FROM users WHERE id = ? AND role = 'Client'";
+        try (Connection conn = DatabaseConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientId);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Клиент с ID = " + clientId + " успешно удален.");
+            } else {
+                System.out.println("Клиент с ID = " + clientId + " не найден.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при удалении клиента: " + e.getMessage());
+        }
     }
 }
 
