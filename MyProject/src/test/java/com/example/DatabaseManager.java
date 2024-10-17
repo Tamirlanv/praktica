@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 //---C - Create: Регистрация клиента (Create)
-public class UserManager {
+public class DatabaseManager {
     // Регистрация клиента
     public static boolean registerClient(String name, String age, String password) {
         String sql = "INSERT INTO users (name, age, password, role) VALUES (?, ?, ?, 'Client')";
-        try (Connection conn = DatabaseConnectorTest.connect();
+        try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, age);
@@ -27,7 +27,7 @@ public class UserManager {
 //---R - Read: Аутентификация администратора (Read)
     public static boolean authenticateAdmin(String name, String password){
         String sql = "SELECT * FROM users WHERE name = ? AND password = ? AND role = 'Admin'";
-        try (Connection conn = DatabaseConnectorTest.connect();
+        try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, password);
@@ -42,7 +42,7 @@ public class UserManager {
 //---R - Read: Просмотр клиентов администратором (Read)
     public static void showClients() {
         String sql = "SELECT * FROM users WHERE role = 'Client'";
-        try (Connection conn = DatabaseConnectorTest.connect();
+        try (Connection conn = DatabaseConnector.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -56,7 +56,7 @@ public class UserManager {
 //---R - Read: Получение баланса клиента (Read)
     public static int getClientBalance(String name) {
         String sql = "SELECT balance FROM users WHERE name = ? AND role = 'Client'";
-        try (Connection conn = DatabaseConnectorTest.connect();
+        try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
@@ -72,7 +72,7 @@ public class UserManager {
 //U - Update: Обновление баланса клиента (Update)
     public static void updateClientBalance(String name, int newBalance) {
         String sql = "UPDATE users SET balance = ? WHERE name = ? AND role = 'Client'";
-        try (Connection conn = DatabaseConnectorTest.connect();
+        try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newBalance);
             pstmt.setString(2, name);

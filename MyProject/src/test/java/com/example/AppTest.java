@@ -19,14 +19,14 @@ public class AppTest {
         String role = scan.nextLine();
 
         if (role.equalsIgnoreCase("Admin")) {
-            if (UserManager.authenticateAdmin(name, password)) {
+            if (DatabaseManager.authenticateAdmin(name, password)) {
                 System.out.println("Добро пожаловать, администратор!");
                 adminMenu(); // вызываем меню администратора
             } else {
                 System.out.println("Неверные имя или пароль для администратора.");
             }
         } else if (role.equalsIgnoreCase("Client")) {
-            if (UserManager.registerClient(name, age, password)) {
+            if (DatabaseManager.registerClient(name, age, password)) {
                 System.out.println("Клиент успешно зарегистрирован.");
                 clientMenu(name);
             }
@@ -48,13 +48,13 @@ public class AppTest {
             switch (adminChoice) {
                 case 1:
                     // Показать всех клиентов
-                    UserManager.showClients();
+                    DatabaseManager.showClients();
                     break;
                 case 2:
                     // Удалить клиента
                     System.out.println("Введите ID клиента для удаления:");
                     int clientId = scan.nextInt();
-                    UserManager.deleteClientById(clientId);
+                    DatabaseManager.deleteClientById(clientId);
                     System.out.println("Клиент с ID " + clientId + " был удален.");
                     break;
                 case 3:
@@ -72,7 +72,7 @@ public class AppTest {
     //// Меню для клиента (не изменяется)
     public static void clientMenu(String name) {
         Scanner scan = new Scanner(System.in);
-        int balance = UserManager.getClientBalance(name);
+        int balance = DatabaseManager.getClientBalance(name);
         int answer = 0;
 
         while (answer != 4) {
@@ -95,7 +95,7 @@ public class AppTest {
                         }
                     } while (deposit < 0);
                     balance += deposit;
-                    UserManager.updateClientBalance(name, balance);
+                    DatabaseManager.updateClientBalance(name, balance);
                     System.out.println("Ваш счёт пополнен. Текущий баланс: " + balance + " тенге.");
                     break;
                 case 3:
@@ -111,7 +111,7 @@ public class AppTest {
                         }
                     } while (snatie < 0 || snatie > balance);
                     balance -= snatie;
-                    UserManager.updateClientBalance(name, balance);
+                    DatabaseManager.updateClientBalance(name, balance);
                     System.out.println("Вы сняли " + snatie + " тенге. Остаток на счёте: " + balance + " тенге.");
                     break;
                 case 4:
