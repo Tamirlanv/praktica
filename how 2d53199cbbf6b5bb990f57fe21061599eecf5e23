@@ -1,0 +1,36 @@
+[33mcommit 2d53199cbbf6b5bb990f57fe21061599eecf5e23[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32midea[m[33m, [m[1;31morigin/idea[m[33m)[m
+Merge: 7147c85 6b647c4
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sun Oct 13 21:52:49 2024 +0500
+
+    Merge branch 'idea' of https://github.com/Tamirlanv/praktica into idea
+
+[33mcommit 7147c85f4f9a260aad73673d49e33a52ecd05825[m
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sun Oct 13 20:41:01 2024 +0500
+
+    Добавил adminMenu и методы удаления клиента
+
+[33mcommit 6b647c426888b71e392674b4e256da0eaf2916d8[m
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sun Oct 13 17:25:36 2024 +0500
+
+    Добавление удаления по id для админа
+
+[33mcommit 6e338ede35d23539560340c98c84ea6063175f0f[m
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sun Oct 13 00:47:52 2024 +0500
+
+    Create working programm
+
+[33mcommit 209a85cf86fb8bc14c84931f53fef05ad9afeaa2[m[33m ([m[1;31morigin/funcshion[m[33m)[m
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sat Oct 12 20:45:59 2024 +0500
+
+    Создание ветки функшн
+
+[33mcommit 369f685ed4048b4aa36980171411e65f188b9707[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Tamir Vlad <hpvictus3050@gmail.com>
+Date:   Sat Oct 12 17:48:32 2024 +0500
+
+    Добавлены файлы проекта
