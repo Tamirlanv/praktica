@@ -10,7 +10,7 @@ public class App {
         String name = scan.nextLine();
 
         System.out.println("Введите ваш возраст");
-        String age = scan.nextLine();
+        int age = scan.nextInt();
 
         System.out.println("Введите ваш пароль");
         String password = scan.nextLine();

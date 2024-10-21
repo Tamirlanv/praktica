@@ -9,12 +9,12 @@ import java.sql.Statement;
 //---C - Create: Регистрация клиента (Create)
 public class DatabaseManagerTest {
     // Регистрация клиента
-    public static boolean registerClient(String name, String age, String password) {
+    public static boolean registerClient(String name, int age, String password) {
         String sql = "INSERT INTO users (name, age, password, role) VALUES (?, ?, ?, 'Client')";
         try (Connection conn = DatabaseConnectorTest.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
-            pstmt.setString(2, age);
+            pstmt.setInt(2, age);
             pstmt.setString(3, password);
             pstmt.executeUpdate();
             return true;
@@ -23,6 +23,22 @@ public class DatabaseManagerTest {
             return false;
         }
     }
+
+//---R - Read: Аутентификация клиента (Read)
+    public static boolean authenticateClient(String name, String password) {
+        String sql = "SELECT * FROM users WHERE name = ? AND password = ? AND role = 'Client'";
+        try (Connection conn = DatabaseConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // Возвращает true, если клиент найден
+        } catch (SQLException e) {
+            System.out.println("Ошибка при аутентификации клиента: " + e.getMessage());
+            return false;
+        }
+    }
+    
     
 //---R - Read: Аутентификация администратора (Read)
     public static boolean authenticateAdmin(String name, String password){
@@ -69,6 +85,9 @@ public class DatabaseManagerTest {
         return -1;
     }
 
+
+    
+
 //U - Update: Обновление баланса клиента (Update)
     public static void updateClientBalance(String name, int newBalance) {
         String sql = "UPDATE users SET balance = ? WHERE name = ? AND role = 'Client'";
@@ -81,6 +100,23 @@ public class DatabaseManagerTest {
             System.out.println("Ошибка при обновлении баланса: " + e.getMessage());
         }
 
+    }
+
+//U - Update: Обновление данных клиента(пароль и возраст) клиента (Update)
+    public static boolean updateClientInfo(String name, String age, String password, String newPassword) {
+        String sql = "UPDATE users SET age = ?, password = ? WHERE name = ? AND password = ? AND role = 'Client'";
+        try (Connection conn = DatabaseConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, age);
+            pstmt.setString(2, newPassword);
+            pstmt.setString(3, name);
+            pstmt.setString(4, password);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Возвращает true, если обновление успешно
+        } catch (SQLException e) {
+            System.out.println("Ошибка при обновлении информации клиента: " + e.getMessage());
+            return false;
+        }
     }
 
 //D - Delete: Удаление клиента по ID (Delete)

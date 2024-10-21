@@ -9,12 +9,20 @@ import java.sql.Statement;
 //---C - Create: Регистрация клиента (Create)
 public class DatabaseManager {
     // Регистрация клиента
-    public static boolean registerClient(String name, String age, String password) {
+    public static boolean registerClient(String name, int age, String password) {
+        if (age < 18) {
+            System.out.println("Соси соску, малыш!");
+            return false;
+        } else if (age > 100) {
+            System.out.println("Возраст должен быть от 18 до 100 лет.");
+            return false;
+        }
+        
         String sql = "INSERT INTO users (name, age, password, role) VALUES (?, ?, ?, 'Client')";
         try (Connection conn = DatabaseConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
-            pstmt.setString(2, age);
+            pstmt.setInt(2, age);
             pstmt.setString(3, password);
             pstmt.executeUpdate();
             return true;

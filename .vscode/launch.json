@@ -6,25 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "AppTest",
+            "name": "Launch App",
             "request": "launch",
-            "mainClass": "com.example.AppTest",
+            "mainClass": "com.example.App",
             "projectName": "MyProject"
         },
         {
             "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "com.example.App",
-            "projectName": "MyProject",
-
-        },
-        {
-            "type": "java",
-            "name": "AppTest",
+            "name": "Launch AppTest",
             "request": "launch",
             "mainClass": "com.example.AppTest",
-            "projectName": "MyProject",
+            "projectName": "MyProject"
         }
     ]
 }
